@@ -1,4 +1,4 @@
-.App {
+.chars {
   display: flex;
   flex-wrap: wrap;
 }
@@ -12,4 +12,17 @@
 
 .symbol {
   font-size: 50px;
+}
+
+code {
+  border: 1px solid gray;
+  padding: 0 2px;
+  background-color: whitesmoke;
+}
+
+input {
+  display: block;
+  width: 80%;
+  font-size: 18px;
+  margin: 10px auto;
 }
