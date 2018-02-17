@@ -1,0 +1,15 @@
+.App {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.char {
+  padding: 30px;
+  text-align: center;
+  width: 120px;
+  height: 120px;
+}
+
+.symbol {
+  font-size: 50px;
+}
