@@ -5,24 +5,41 @@ import './App.css'
 class App extends Component {
   constructor(props) {
     super(props)
+    this.defaultLimit = 200
+    this.limitIncrease = 100
     this.state = {
       chars: data,
-      filter: ''
+      filter: '',
+      limit: this.defaultLimit
     }
     this.handleInput = this.handleInput.bind(this)
+    document.addEventListener('scroll', () => {
+      const scrollPercentage = (window.innerHeight + window.pageYOffset) / document.body.offsetHeight
+      if (scrollPercentage > 0.9) {
+        this.setState(prevState => {
+          return {
+            limit: prevState.limit + this.limitIncrease
+          }
+        })
+      }
+    })
   }
 
   handleInput(e) {
     const {name, value} = e.target
     this.setState({
-      [name]: value
+      [name]: value,
+      limit: this.defaultLimit
     })
   }
 
   render() {
-    const {chars, filter} = this.state
-    const display = chars.filter(item => {
+    const {chars, filter, limit} = this.state
+    const filtered = chars.filter(item => {
       if (item.name.toLowerCase().indexOf(filter) > -1) return item
+    })
+    const limited = filtered.filter((item, idx) => {
+      if (idx < limit) return item
     })
     return (
       <div className="App">
@@ -32,7 +49,7 @@ class App extends Component {
           onChange={this.handleInput}
         />
         <div className="chars">
-          {display.map((item, idx) => {
+          {limited.map((item, idx) => {
             return (
               <div 
                 className="char"
