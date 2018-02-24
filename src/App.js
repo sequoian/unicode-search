@@ -10,7 +10,8 @@ class App extends Component {
     this.state = {
       chars: data,
       filter: '',
-      limit: this.defaultLimit
+      limit: this.defaultLimit,
+      showDupes: false
     }
     this.handleInput = this.handleInput.bind(this)
     document.addEventListener('scroll', () => {
@@ -34,11 +35,23 @@ class App extends Component {
   }
 
   render() {
-    const {chars, filter, limit} = this.state
+    const {chars, filter, limit, showDupes} = this.state
     const filtered = chars.filter(item => {
       if (item.name.toLowerCase().indexOf(filter) > -1) return item
     })
-    const limited = filtered.filter((item, idx) => {
+    let deDuped
+    if (showDupes) {
+      deDuped = filtered
+    }
+    else {
+      const map = new Map()
+      filtered.forEach(item => {
+        map.set(item.code, item)
+      })
+      deDuped = Array.from(map.values())
+    }
+    
+    const limited = deDuped.filter((item, idx) => {
       if (idx < limit) return item
     })
     return (
